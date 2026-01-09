@@ -200,7 +200,7 @@ return new class extends Migration {
 
         Schema::create('document_versions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('document_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('document_id');
             $table->unsignedInteger('version_number');
             $table->string('file_storage_key');
             $table->string('original_filename');
@@ -218,6 +218,13 @@ return new class extends Migration {
                 ->references('id')
                 ->on('document_versions')
                 ->nullOnDelete();
+        });
+
+        Schema::table('document_versions', function (Blueprint $table) {
+            $table->foreign('document_id')
+                ->references('id')
+                ->on('documents')
+                ->cascadeOnDelete();
         });
 
         Schema::create('review_requests', function (Blueprint $table) {
