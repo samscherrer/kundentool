@@ -10,6 +10,12 @@ if (isset($_GET['debug_index'])) {
     exit;
 }
 
+if (is_file(__DIR__ . '/../storage/app/debug-probe.txt')) {
+    header('Content-Type: text/plain; charset=UTF-8');
+    echo file_get_contents(__DIR__ . '/../storage/app/debug-probe.txt');
+    exit;
+}
+
 if (isset($_GET['clear_route_cache'])) {
     $cacheFile = __DIR__ . '/../bootstrap/cache/routes-v7.php';
     if (is_file($cacheFile)) {
