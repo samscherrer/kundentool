@@ -65,16 +65,6 @@ return new class extends Migration {
             $table->timestamp('used_at')->nullable();
         });
 
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
-            $table->string('title');
-            $table->string('status');
-            $table->foreignId('created_by_user_id')->constrained('users')->cascadeOnDelete();
-            $table->timestamps();
-        });
-
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
@@ -85,6 +75,16 @@ return new class extends Migration {
             $table->string('priority');
             $table->foreignId('created_by_user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('assigned_to_user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->timestamps();
+        });
+
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
+            $table->string('title');
+            $table->string('status');
+            $table->foreignId('created_by_user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
 
@@ -322,8 +322,8 @@ return new class extends Migration {
         Schema::dropIfExists('offer_positions');
         Schema::dropIfExists('offers');
         Schema::dropIfExists('tasks');
-        Schema::dropIfExists('tickets');
         Schema::dropIfExists('orders');
+        Schema::dropIfExists('tickets');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('invites');
         Schema::dropIfExists('role_user');
