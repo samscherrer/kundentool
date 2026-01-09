@@ -6,6 +6,9 @@ define('LARAVEL_START', microtime(true));
 
 if (isset($_GET['debug_index'])) {
     header('Content-Type: text/plain; charset=UTF-8');
+    $logPath = __DIR__ . '/../storage/logs/index-probe.log';
+    $line = date('c') . ' debug_index hit from ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n";
+    @file_put_contents($logPath, $line, FILE_APPEND);
     echo "index.php reached\n";
     exit;
 }
