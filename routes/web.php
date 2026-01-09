@@ -23,6 +23,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/login');
 });
+Route::get('/index.php', function () {
+    return redirect('/login');
+});
+Route::get('/index.php/{any}', function (string $any) {
+    return redirect('/' . $any);
+})->where('any', '.*');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -85,3 +91,7 @@ Route::middleware('auth')->prefix('portal')->name('portal.')->group(function () 
 });
 
 Route::middleware('auth')->get('/files/document-versions/{id}', [FilesController::class, 'show']);
+
+Route::fallback(function () {
+    return redirect('/login');
+});
