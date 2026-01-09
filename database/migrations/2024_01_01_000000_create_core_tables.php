@@ -192,7 +192,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description')->nullable();
             $table->foreignId('created_by_user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('current_version_id')->nullable()->constrained('document_versions')->nullOnDelete();
+            $table->unsignedBigInteger('current_version_id')->nullable();
             $table->string('linked_context_type')->nullable();
             $table->unsignedBigInteger('linked_context_id')->nullable();
             $table->timestamps();
@@ -211,6 +211,13 @@ return new class extends Migration {
             $table->boolean('customer_visible')->default(false);
             $table->foreignId('created_by_user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
+        });
+
+        Schema::table('documents', function (Blueprint $table) {
+            $table->foreign('current_version_id')
+                ->references('id')
+                ->on('document_versions')
+                ->nullOnDelete();
         });
 
         Schema::create('review_requests', function (Blueprint $table) {
